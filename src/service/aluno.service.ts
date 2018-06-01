@@ -1,11 +1,11 @@
 import { Aluno } from '../model/aluno'
 
 let alunos: Aluno[] = [
-    {id: 1, nome: 'Adson', idade: 24},
-    {id: 2, nome: 'Fulano', idade: 21},
-    {id: 3, nome: 'Joao', idade: 27},
-    {id: 4, nome: 'Catarina', idade: 22},
-    {id: 5, nome: 'Maria', idade: 23},
+  { id: 1, nome: 'Adson', idade: 24 },
+  { id: 2, nome: 'Fulano', idade: 21 },
+  { id: 3, nome: 'Joao', idade: 27 },
+  { id: 4, nome: 'Catarina', idade: 22 },
+  { id: 5, nome: 'Maria', idade: 23 },
 ]
 
 class AlunoService {
@@ -25,7 +25,7 @@ class AlunoService {
   public updateAluno(aluno: Aluno) {
     alunos.map((al) => {
       if (al.id === aluno.id) {
-          al = {...aluno}
+        al = { ...aluno }
       }
     })
   }
