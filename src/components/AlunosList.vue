@@ -1,19 +1,19 @@
 <template>
     <div>
         <div class="button-group">
-            <button @click="getAlunos">Refresh</button>
+            <button @click="getalunos">Refresh</button>
             <button @click="enableAddMode" v-if="!addingAluno && !selectedAluno">Add</button>
         </div>
         <transition name="fade">
-            <ul class="heroes" v-if="alunos && alunos.length">
+            <ul class="alunos" v-if="alunos && alunos.length">
                 <li v-for="aluno in alunos" :key="aluno.id"
-                    class="hero-container"
-                    :class="{selected: hero === selectedHero}">
-                    <div class="hero-element">
+                    class="aluno-container"
+                    :class="{selected: aluno === selectedAluno}">
+                    <div class="aluno-element">
                         <div class="badge" >{{aluno.id}}</div>
-                        <div class="hero-text" @click="onSelect(aluno)">
+                        <div class="aluno-text" @click="onSelect(aluno)">
                             <div class="name">{{aluno.nome}}</div>
-                            <div class="saying">{{aluno.idade}}</div>
+                            <div class="idade">{{aluno.idade}}</div>
                         </div>
                     </div>
                     <button class="delete-button" @click="deleteAluno(aluno)">Delete</button>
@@ -48,7 +48,7 @@ export default class AlunoList extends Vue {
   }
 
   private deleteAluno(aluno: Aluno) {
-    alunoService.deleteAluno(aluno)
+    // alunoService.deleteAluno(aluno)
     this.alunos = this.alunos.filter((h) => h !== aluno)
     if (this.selectedAluno === aluno) {
       this.selectedAluno = null
@@ -61,7 +61,6 @@ export default class AlunoList extends Vue {
   }
 
   private getalunos() {
-    this.alunos = []
     this.selectedAluno = null
     this.alunos = alunoService.getAlunos()
   }
@@ -107,7 +106,7 @@ export default class AlunoList extends Vue {
         background-color: rgb(0, 120, 215) !important;
         color: white;
     }
-    .heroes {
+    .alunos {
         float: left;
         margin: 0 0 2em 0;
         list-style-type: none;
@@ -134,20 +133,20 @@ export default class AlunoList extends Vue {
             position: relative;
             top: -3px;
         }
-        .saying {
+        .idade {
             margin: 5px 2.3px;
         }
         .name {
             font-weight: bold;
         }
-        .hero-container {
+        .aluno-container {
             display: flex;
             flex-flow: row wrap;
         }
         > * {
             flex: 1 100%;
         }
-        .hero-element {
+        .aluno-element {
             display: flex;
             flex-flow: row wrap;
             flex: 18 auto;
@@ -160,7 +159,7 @@ export default class AlunoList extends Vue {
             order: 2;
             border-radius: 0 4px 4px 0;
         }
-        .hero-text {
+        .aluno-text {
             flex: 1 auto;
             order: 2;
             padding: 0.2em 0.5em;
