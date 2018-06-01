@@ -2,6 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
+      <router-link to="/alunos">Alunos</router-link> | 
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
@@ -9,15 +10,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'vue-property-decorator'
+import AlunosList from './components/AlunosList.vue'
 
-export default Vue.extend({
-  data() {
-    return {
-      title: 'Testando servico em VUE',
-    }
-  },
+@Component({
+  components: { AlunosList },
 })
+export default class App extends Vue {
+  private title: string
+
+  constructor() {
+    super()
+    this.title = 'Testando Servicos em VUE'
+  }
+}
 
 </script>
 
