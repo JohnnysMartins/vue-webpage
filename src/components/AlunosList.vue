@@ -41,9 +41,9 @@ import { alunoService } from '../service/aluno.service'
   components: {},
 })
 export default class AlunoList extends Vue {
-  public addingAluno = false
-  public selectedAluno: Aluno | null = null
-  public alunos: Aluno[] = []
+  private addingAluno = false
+  private selectedAluno: Aluno | null = null
+  private alunos: Aluno[] = []
 
   private created() {
     this.getalunos()
@@ -93,102 +93,101 @@ export default class AlunoList extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
 
-    .container{
-        padding: 0;
-        margin: 0;
-        list-style: none;
-        display: flex;
-        
-        // -webkit-flex-flow: row wrap;
-        justify-content: space-around;
-    }
+  // -webkit-flex-flow: row wrap;
+  justify-content: space-around;
+}
 
-    .button-group {
-        margin: 0.5em;
+.button-group {
+  margin: 0.5em;
+}
+button.delete-button {
+  background-color: rgb(216, 59, 1);
+  color: white;
+  padding: 4px;
+  position: relative;
+  font-size: 12px;
+  max-width: 50px;
+}
+.selected {
+  background-color: rgb(0, 120, 215) !important;
+  color: white;
+}
+.alunos {
+  float: left;
+  margin: 0 0 2em 0;
+  list-style-type: none;
+  padding: 0;
+  width: 20em;
+  li {
+    cursor: pointer;
+    position: relative;
+    background-color: #f7f7f7;
+    margin: 0.5em;
+    height: 3.2em;
+    border-radius: 4px;
+    &:hover {
+      color: #607d8b;
+      color: rgb(0, 120, 215);
+      background-color: #ddd;
+      left: 1px;
     }
-    button.delete-button {
-        background-color: rgb(216, 59, 1);
-        color: white;
-        padding: 4px;
-        position: relative;
-        font-size: 12px;
-        max-width: 50px;
+    &.selected:hover {
+      color: white;
     }
-    .selected {
-        background-color: rgb(0, 120, 215) !important;
-        color: white;
-    }
-    .alunos {
-        float: left;
-        margin: 0 0 2em 0;
-        list-style-type: none;
-        padding: 0;
-        width: 20em;
-        li {
-            cursor: pointer;
-            position: relative;
-            background-color: #f7f7f7;
-            margin: 0.5em;
-            height: 3.2em;
-            border-radius: 4px;
-            &:hover {
-                color: #607d8b;
-                color: rgb(0, 120, 215);
-                background-color: #ddd;
-                left: 1px;
-            }
-            &.selected:hover {
-                color: white;
-            }
-        }
-        .text {
-            position: relative;
-            top: -3px;
-        }
-        .idade {
-            margin: 5px 2.3px;
-        }
-        .name {
-            font-weight: bold;
-        }
-        .aluno-container {
-            display: flex;
-            flex-flow: row wrap;
-        }
-        > * {
-            flex: 1 100%;
-        }
-        .aluno-element {
-            display: flex;
-            flex-flow: row wrap;
-            flex: 18 auto;
-            order: 1;
-            padding: 0;
-            margin: 0;
-        }
-        .delete-button {
-            flex: 1 auto;
-            order: 2;
-            border-radius: 0 4px 4px 0;
-        }
-        .aluno-text {
-            flex: 1 auto;
-            order: 2;
-            padding: 0.2em 0.5em;
-        }
-        .badge {
-            flex: 1 auto;
-            order: 1;
-            font-size: small;
-            color: #ffffff;
-            padding: 1.2em 1em 0em 1em;
-            background-color: #607d8b;
-            background-color: rgb(0, 120, 215);
-            background-color: rgb(134, 183, 221);
-            margin: 0em 0em 0em 0em;
-            border-radius: 4px 0 0 4px;
-            max-width: 1.5em;
-        }
-    }
+  }
+  .text {
+    position: relative;
+    top: -3px;
+  }
+  .idade {
+    margin: 5px 2.3px;
+  }
+  .name {
+    font-weight: bold;
+  }
+  .aluno-container {
+    display: flex;
+    flex-flow: row wrap;
+  }
+  > * {
+    flex: 1 100%;
+  }
+  .aluno-element {
+    display: flex;
+    flex-flow: row wrap;
+    flex: 18 auto;
+    order: 1;
+    padding: 0;
+    margin: 0;
+  }
+  .delete-button {
+    flex: 1 auto;
+    order: 2;
+    border-radius: 0 4px 4px 0;
+  }
+  .aluno-text {
+    flex: 1 auto;
+    order: 2;
+    padding: 0.2em 0.5em;
+  }
+  .badge {
+    flex: 1 auto;
+    order: 1;
+    font-size: small;
+    color: #ffffff;
+    padding: 1.2em 1em 0em 1em;
+    background-color: #607d8b;
+    background-color: rgb(0, 120, 215);
+    background-color: rgb(134, 183, 221);
+    margin: 0em 0em 0em 0em;
+    border-radius: 4px 0 0 4px;
+    max-width: 1.5em;
+  }
+}
 </style>
