@@ -4,22 +4,24 @@
             <button @click="getalunos">Refresh</button>
             <button @click="enableAddMode" v-if="!addingAluno && !selectedAluno">Add</button>
         </div>
-        <transition name="fade">
-            <ul class="alunos" v-if="alunos && alunos.length">
-                <li v-for="aluno in alunos" :key="aluno.id"
-                    class="aluno-container"
-                    :class="{selected: aluno === selectedAluno}">
-                    <div class="aluno-element">
-                        <div class="badge" >{{aluno.id}}</div>
-                        <div class="aluno-text" @click="onSelect(aluno)">
-                            <div class="name">{{aluno.nome}}</div>
-                            <div class="idade">{{aluno.idade}}</div>
+        <div class="container">
+            <transition name="fade">
+                <ul class="alunos" v-if="alunos && alunos.length">
+                    <li v-for="aluno in alunos" :key="aluno.id"
+                        class="aluno-container"
+                        :class="{selected: aluno === selectedAluno}">
+                        <div class="aluno-element">
+                            <div class="badge" >{{aluno.id}}</div>
+                            <div class="aluno-text" @click="onSelect(aluno)">
+                                <div class="name">{{aluno.nome}}</div>
+                                <div class="idade">{{aluno.idade}}</div>
+                            </div>
                         </div>
-                    </div>
-                    <button class="delete-button" @click="deleteAluno(aluno)">Delete</button>
-                </li>
-            </ul>
-        </transition>
+                        <button class="delete-button" @click="deleteAluno(aluno)">Delete</button>
+                    </li>
+                </ul>
+            </transition>
+        </div>
         <transition name="fade">
             <!--<HeroDetail-->
                     <!--v-if="selectedAluno || addingAluno"-->
@@ -91,6 +93,17 @@ export default class AlunoList extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
+    .container{
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        
+        // -webkit-flex-flow: row wrap;
+        justify-content: space-around;
+    }
+
     .button-group {
         margin: 0.5em;
     }
