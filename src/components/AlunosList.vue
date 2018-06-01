@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="button-group">
-            <button @click="getalunos">Refresh</button>
+            <button @click="getAlunos">Refresh</button>
             <button @click="enableAddMode" v-if="!addingAluno && !selectedAluno">Add</button>
         </div>
         <div class="container">
@@ -27,7 +27,7 @@
                     <!--v-if="selectedAluno || addingAluno"-->
                     <!--:hero="selectedAluno"-->
                     <!--@unselect="unselect"-->
-                    <!--@heroChanged="AlunoChanged"></HeroDetail>-->
+                    <!--@heroChanged="alunoChanged"></HeroDetail>-->
         </transition>
     </div>
 </template>
@@ -46,7 +46,7 @@ export default class AlunoList extends Vue {
   private alunos: Aluno[] = []
 
   private created() {
-    this.getalunos()
+    this.getAlunos()
   }
 
   private deleteAluno(aluno: Aluno) {
@@ -62,12 +62,12 @@ export default class AlunoList extends Vue {
     this.selectedAluno = null
   }
 
-  private getalunos() {
+  private getAlunos() {
     this.selectedAluno = null
     this.alunos = alunoService.getAlunos()
   }
 
-  private AlunoChanged(mode: string, aluno: Aluno) {
+  private alunoChanged(mode: string, aluno: Aluno) {
     // console.log('Aluno changed', aluno)
     if (mode === 'add') {
       alunoService.addAluno(aluno)
