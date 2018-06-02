@@ -1,44 +1,39 @@
 <template>
-    <div>
-        <div class="button-group">
-            <button @click="getAlunos">Refresh</button>
-            <button @click="enableAddMode" v-if="!addingAluno && !selectedAluno">Add</button>
-        </div>
-        <div class="container">
-            <transition name="fade">
-                <ul class="alunos" v-if="alunos && alunos.length">
-                    <li v-for="aluno in alunos" :key="aluno.id"
-                        class="aluno-container"
-                        :class="{selected: aluno === selectedAluno}">
-                        <div class="aluno-element">
-                            <div class="badge" >{{aluno.id}}</div>
-                            <div class="aluno-text" @click="onSelect(aluno)">
-                                <div class="name">{{aluno.nome}}</div>
-                                <div class="idade">{{aluno.idade}}</div>
-                            </div>
-                        </div>
-                        <button class="delete-button" @click="deleteAluno(aluno)">Delete</button>
-                    </li>
-                </ul>
-            </transition>
-        </div>
-        <transition name="fade">
-            <!--<HeroDetail-->
-                    <!--v-if="selectedAluno || addingAluno"-->
-                    <!--:hero="selectedAluno"-->
-                    <!--@unselect="unselect"-->
-                    <!--@heroChanged="alunoChanged"></HeroDetail>-->
-        </transition>
+  <div>
+    <div class="button-group">
+      <button @click="getAlunos">Refresh</button>
+      <button @click="enableAddMode" v-if="!addingAluno && !selectedAluno">Add</button>
     </div>
+    <div class="container">
+      <transition name="fade">
+        <ul class="alunos" v-if="alunos && alunos.length">
+          <li v-for="(aluno, index) in alunos" :key="index" class="aluno-container" :class="{selected: aluno === selectedAluno}">
+            <div class="aluno-element">
+              <div class="badge">{{index}}</div>
+              <div class="aluno-text" @click="onSelect(aluno)">
+                <div class="name">{{aluno.nome}}</div>
+                <div class="idade">{{aluno.idade}}</div>
+              </div>
+            </div>
+            <button class="delete-button" @click="deleteAluno(aluno)">Delete</button>
+          </li>
+        </ul>
+      </transition>
+    </div>
+    <transition name="fade">
+      <AlunoDetail v-if="selectedAluno || addingAluno" :aluno="selectedAluno" @unselect="unselect" @alunoChanged="alunoChanged"></AlunoDetail>
+    </transition>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { Aluno } from '../model/aluno'
 import { alunoService } from '../service/aluno.service'
+import AlunoDetail from './AlunoDetail.vue'
 
 @Component({
-  components: {},
+  components: { AlunoDetail },
 })
 export default class AlunoList extends Vue {
   private addingAluno = false
@@ -50,7 +45,7 @@ export default class AlunoList extends Vue {
   }
 
   private deleteAluno(aluno: Aluno) {
-    // alunoService.deleteAluno(aluno)
+    alunoService.deleteAluno(aluno)
     this.alunos = this.alunos.filter((h) => h !== aluno)
     if (this.selectedAluno === aluno) {
       this.selectedAluno = null
@@ -62,16 +57,14 @@ export default class AlunoList extends Vue {
     this.selectedAluno = null
   }
 
-  private getAlunos() {
+  private async getAlunos() {
     this.selectedAluno = null
-    this.alunos = alunoService.getAlunos()
+    this.alunos = await alunoService.getAlunos().then((res) => res.data)
   }
 
   private alunoChanged(mode: string, aluno: Aluno) {
-    // console.log('Aluno changed', aluno)
     if (mode === 'add') {
       alunoService.addAluno(aluno)
-      this.alunos.push(aluno)
     } else {
       alunoService.updateAluno(aluno)
       const index = this.alunos.findIndex((h) => aluno.id === h.id)

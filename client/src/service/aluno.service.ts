@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { Aluno } from '../model/aluno'
 
 let alunos: Aluno[] = [
@@ -8,6 +9,8 @@ let alunos: Aluno[] = [
   { id: 5, nome: 'Maria', idade: 23 },
 ]
 
+const api = 'http://localhost:3003/api/alunos/'
+
 class AlunoService {
   constructor() {
     // console.table(alunos)
@@ -17,10 +20,14 @@ class AlunoService {
     alunos = alunos.filter((al) => al.id !== aluno.id)
   }
   public getAlunos() {
-    return alunos
+    return axios.get<Aluno[]>(`${api}`)
   }
   public addAluno(aluno: Aluno) {
     alunos.push(aluno)
+    axios.post(`${api}`, {
+      nome: aluno.nome,
+      idade: aluno.idade,
+    })
   }
   public updateAluno(aluno: Aluno) {
     alunos.map((al) => {

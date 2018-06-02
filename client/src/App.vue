@@ -11,10 +11,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import AlunosList from './components/AlunosList.vue'
+import AlunoList from './components/AlunosList.vue'
 
 @Component({
-  components: { AlunosList },
+  components: { AlunoList },
 })
 export default class App extends Vue {
   private title: string
