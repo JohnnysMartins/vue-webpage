@@ -6,8 +6,8 @@
     </div>
     <div class="container">
       <transition name="fade">
-        <ul class="alunos" v-if="alunos && alunos.length">
-          <li v-for="(aluno, index) in alunos" :key="index" class="aluno-container" :class="{selected: aluno === selectedAluno}">
+        <ul class="alunos" v-if="alunosTest && alunosTest.length">
+          <li v-for="(aluno, index) in alunosTest" :key="index" class="aluno-container" :class="{selected: aluno === selectedAluno}">
             <div class="aluno-element">
               <div class="badge">{{index}}</div>
               <div class="aluno-text" @click="onSelect(aluno)">
@@ -28,14 +28,14 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-import { setAllAlunos } from '../store/aluno/actions.map'
-import { getAlunos } from '../store/aluno/getters.map'
 import { Getter, Action } from 'vuex-class'
-import { Aluno } from '../model/aluno'
-import { IAluno } from '../interfaces/i-aluno'
-import { alunoService } from '../service/aluno.service'
-
+import { setAllAlunos } from '@/store/aluno/actions.map'
+import { getAlunos } from '@/store/aluno/getters.map'
+import { Aluno } from '@/model/aluno'
+import { IAluno } from '@/interfaces/i-aluno'
+import { alunoService } from '@/service/aluno.service'
 import AlunoDetail from './AlunoDetail.vue'
+
 const namespace = 'aluno'
 
 @Component({
