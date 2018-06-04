@@ -1,0 +1,3 @@
+export const SET_LIST_ALUNOS = 'SET_LIST_PESSOAS'
+export const REMOVE_ALUNOS = 'REMOVE_PESSOA'
+export const ADD_ALUNOS = 'ADD_PESSOA'

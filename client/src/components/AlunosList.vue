@@ -28,9 +28,15 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { setAllAlunos } from '../store/aluno/actions.map'
+import { getAlunos } from '../store/aluno/getters.map'
+import { Getter, Action } from 'vuex-class'
 import { Aluno } from '../model/aluno'
+import { IAluno } from '../interfaces/i-aluno'
 import { alunoService } from '../service/aluno.service'
+
 import AlunoDetail from './AlunoDetail.vue'
+const namespace = 'aluno'
 
 @Component({
   components: { AlunoDetail },
@@ -39,9 +45,15 @@ export default class AlunoList extends Vue {
   private addingAluno = false
   private selectedAluno: Aluno | null = null
   private alunos: Aluno[] = []
-
+  @Getter(getAlunos, { namespace }) private alunosTest!: IAluno[]
   private created() {
-    this.getAlunos()
+    const alunos = [
+      {nome: 'Fulano', idade: 19},
+      {nome: 'Beltrano', idade: 12},
+      {nome: 'Cicrano', idade: 14},
+    ]
+    this.$store.dispatch(setAllAlunos(alunos))
+    // this.getAlunos()
   }
 
   private deleteAluno(aluno: Aluno) {
