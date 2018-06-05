@@ -7,9 +7,9 @@
     <div class="container">
       <transition name="fade">
         <ul class="alunos" v-if="alunosTest && alunosTest.length">
-          <li v-for="(aluno, index) in alunosTest" :key="index" class="aluno-container" :class="{selected: aluno === selectedAluno}">
+          <li v-for="(aluno, index) in alunosTest" :key="aluno.id" class="aluno-container" :class="{selected: aluno === selectedAluno}">
             <div class="aluno-element">
-              <div class="badge">{{index}}</div>
+              <div class="badge">{{aluno.id}}</div>
               <div class="aluno-text" @click="onSelect(aluno)">
                 <div class="name">{{aluno.nome}}</div>
                 <div class="idade">{{aluno.idade}}</div>
@@ -29,7 +29,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { Getter, Action } from 'vuex-class'
-import { setAllAlunos } from '@/store/aluno/actions.map'
+import * as actions from '@/store/aluno/actions.map'
 import { getAlunos } from '@/store/aluno/getters.map'
 import { Aluno } from '@/model/aluno'
 import { IAluno } from '@/interfaces/i-aluno'
@@ -43,17 +43,17 @@ const namespace = 'aluno'
 })
 export default class AlunoList extends Vue {
   private addingAluno = false
-  private selectedAluno: Aluno | null = null
-  private alunos: Aluno[] = []
-  @Getter(getAlunos, { namespace }) private alunosTest!: IAluno[]
+  private selectedAluno: IAluno | null = null
+  private alunos!: IAluno[]
+  @Getter(getAlunos, { namespace })
+  private alunosTest!: IAluno[]
   private created() {
-    const alunos = [
-      {nome: 'Fulano', idade: 19},
-      {nome: 'Beltrano', idade: 12},
-      {nome: 'Cicrano', idade: 14},
+    this.alunos = [
+      {id: 1, nome: 'Fulano', idade: 19},
+      {id: 2, nome: 'Beltrano', idade: 12},
+      {id: 3, nome: 'Cicrano', idade: 14},
     ]
-    this.$store.dispatch(setAllAlunos(alunos))
-    // this.getAlunos()
+    this.$store.dispatch(actions.setAllAlunos(this.alunos))
   }
 
   private deleteAluno(aluno: Aluno) {
@@ -71,20 +71,22 @@ export default class AlunoList extends Vue {
 
   private async getAlunos() {
     this.selectedAluno = null
-    this.alunos = await alunoService.getAlunos().then((res) => res.data)
+    // this.alunos = await alunoService.getAlunos().then((res) => res.data)
+    this.$store.dispatch(actions.setAllAlunos(this.alunos))
   }
 
-  private alunoChanged(mode: string, aluno: Aluno) {
+  private alunoChanged(mode: string, aluno: IAluno) {
     if (mode === 'add') {
-      alunoService.addAluno(aluno)
+      // this.$store.dispatch(actions.addAluno(aluno))
+      // alunoService.addAluno(aluno)
     } else {
-      alunoService.updateAluno(aluno)
-      const index = this.alunos.findIndex((h) => aluno.id === h.id)
-      this.alunos.splice(index, 1, aluno)
+      // alunoService.updateAluno(aluno)
+      const index = this.alunosTest.findIndex((h) => aluno.id === h.id)
+      this.alunosTest.splice(index, 1, aluno)
     }
   }
 
-  private onSelect(aluno: Aluno) {
+  private onSelect(aluno: IAluno) {
     this.selectedAluno = aluno
   }
 

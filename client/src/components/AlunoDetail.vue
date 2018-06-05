@@ -9,7 +9,7 @@
         </div>
         <div>
           <label>nome: </label>
-          <input v-model="editingAluno.nome" ref="nome" placeholder="nome" />
+          <input v-model="aluno.nome" ref="nome" placeholder="nome" />
         </div>
         <div>
           <label>idade: </label>
@@ -24,7 +24,9 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch, Emit } from 'vue-property-decorator'
+import * as actions from '@/store/aluno/actions.map'
 import { Aluno } from '../model/aluno'
+import { IAluno } from '@/interfaces/i-aluno'
 
 @Component({})
 export default class AlunoDetail extends Vue {
@@ -32,18 +34,21 @@ export default class AlunoDetail extends Vue {
     id: HTMLElement,
     nome: HTMLElement,
   }
-  @Prop() private aluno!: Aluno
+  @Prop()
+  private aluno!: IAluno
   private addingAluno = !this.aluno
-  private editingAluno!: Aluno | null
-  @Watch('aluno') public onAlunoChanged(value: string, oldValue: string) {
+  private editingAluno!: IAluno | null
+  @Watch('aluno')
+  public onAlunoChanged(value: IAluno, oldValue: IAluno) {
     this.editingAluno = this.cloneIt()
   }
   private addAluno() {
-    const aluno = this.editingAluno as Aluno
-    this.emitRefresh('add', aluno)
+    const aluno = this.editingAluno as IAluno
+    this.$store.dispatch(actions.addAluno(aluno))
   }
 
-  @Emit('unselect') private clear() {
+  @Emit('unselect')
+  private clear() {
     this.editingAluno = null
   }
 
@@ -55,7 +60,8 @@ export default class AlunoDetail extends Vue {
     this.editingAluno = this.cloneIt()
   }
 
-  @Emit('alunoChanged') private emitRefresh(mode: string, aluno: Aluno) {
+  @Emit('alunoChanged')
+  private emitRefresh(mode: string, aluno: IAluno) {
     this.clear()
   }
 
@@ -76,7 +82,7 @@ export default class AlunoDetail extends Vue {
   }
 
   private updateAluno() {
-    const aluno = this.editingAluno as Aluno
+    const aluno = this.editingAluno as IAluno
     this.emitRefresh('update', aluno)
   }
 
