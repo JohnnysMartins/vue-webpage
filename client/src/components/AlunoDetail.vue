@@ -27,7 +27,6 @@ import { Component, Vue, Prop, Watch, Emit } from 'vue-property-decorator'
 import { Getter, Action } from 'vuex-class'
 import * as getters from '@/store/aluno/getters.map'
 import * as actions from '@/store/aluno/actions.map'
-import { Aluno } from '../model/aluno'
 import { IAluno } from '@/interfaces/i-aluno'
 
 const namespace = 'aluno'
