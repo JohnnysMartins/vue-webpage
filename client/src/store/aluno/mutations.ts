@@ -17,6 +17,5 @@ export default {
   },
   [type.REMOVE_ALUNO](state: IAlunoState, aluno: IAluno) {
     state.lista = state.lista.filter((h) => h !== aluno)
-    
   },
 }
