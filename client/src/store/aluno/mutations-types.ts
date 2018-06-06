@@ -1,3 +1,4 @@
-export const SET_LIST_ALUNOS = 'SET_LIST_PESSOAS'
-export const REMOVE_ALUNOS = 'REMOVE_PESSOA'
-export const ADD_ALUNOS = 'ADD_PESSOA'
+export const SET_LIST_ALUNOS = 'SET_LIST_ALUNOS'
+export const REMOVE_ALUNO = 'REMOVE_ALUNO'
+export const ADD_ALUNO_LIST = 'ADD_ALUNO'
+export const SET_ALUNO = 'SET_ALUNO'

@@ -7,7 +7,7 @@
     <div class="container">
       <transition name="fade">
         <ul class="alunos" v-if="alunosTest && alunosTest.length">
-          <li v-for="(aluno, index) in alunosTest" :key="aluno.id" class="aluno-container" :class="{selected: aluno === selectedAluno}">
+          <li v-for="aluno in alunosTest" :key="aluno.id" class="aluno-container" :class="{selected: aluno === selectedAluno}">
             <div class="aluno-element">
               <div class="badge">{{aluno.id}}</div>
               <div class="aluno-text" @click="onSelect(aluno)">
@@ -88,6 +88,7 @@ export default class AlunoList extends Vue {
 
   private onSelect(aluno: IAluno) {
     this.selectedAluno = aluno
+    this.$store.dispatch(actions.setAluno(aluno))
   }
 
   private unselect() {

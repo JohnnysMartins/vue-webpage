@@ -4,16 +4,16 @@
       <div class="editfields">
         <div>
           <label>id: </label>
-          <input v-if="addingAluno" type="number" v-model="editingAluno.id" ref="id" placeholder="id" />
-          <label v-if="!addingAluno" class="value">{{editingAluno.id}}</label>
+          <input v-if="addingAluno" type="number" v-model="alunoTest.id" ref="id" placeholder="id" />
+          <label v-if="!addingAluno" class="value">{{alunoTest.id}}</label>
         </div>
         <div>
           <label>nome: </label>
-          <input v-model="aluno.nome" ref="nome" placeholder="nome" />
+          <input v-model="alunoTest.nome" ref="nome" placeholder="nome" />
         </div>
         <div>
           <label>idade: </label>
-          <input v-model="editingAluno.idade" placeholder="idade" @keyup.enter="save" />
+          <input v-model="alunoTest.idade" placeholder="idade" @keyup.enter="save" />
         </div>
       </div>
       <button @click="clear">Cancel</button>
@@ -24,9 +24,13 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch, Emit } from 'vue-property-decorator'
+import { Getter, Action } from 'vuex-class'
+import * as getters from '@/store/aluno/getters.map'
 import * as actions from '@/store/aluno/actions.map'
 import { Aluno } from '../model/aluno'
 import { IAluno } from '@/interfaces/i-aluno'
+
+const namespace = 'aluno'
 
 @Component({})
 export default class AlunoDetail extends Vue {
@@ -36,9 +40,10 @@ export default class AlunoDetail extends Vue {
   }
   @Prop()
   private aluno!: IAluno
-  private addingAluno = !this.aluno
+  @Getter(getters.getAluno, { namespace })
+  private alunoTest!: IAluno
+  private addingAluno = !this.alunoTest
   private editingAluno!: IAluno | null
-  
   @Watch('aluno')
   public onAlunoChanged(value: IAluno, oldValue: IAluno) {
     this.editingAluno = this.cloneIt()
