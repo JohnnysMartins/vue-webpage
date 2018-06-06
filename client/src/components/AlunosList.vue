@@ -21,7 +21,7 @@
       </transition>
     </div>
     <transition name="fade">
-      <AlunoDetail v-if="selectedAluno || addingAluno" :aluno="selectedAluno" @unselect="unselect" @alunoChanged="alunoChanged"></AlunoDetail>
+      <AlunoDetail v-if="selectedAluno || addingAluno" @unselect="unselect" @alunoChanged="alunoChanged"></AlunoDetail>
     </transition>
   </div>
 </template>
@@ -76,14 +76,14 @@ export default class AlunoList extends Vue {
   }
 
   private alunoChanged(mode: string, aluno: IAluno) {
-    if (mode === 'add') {
-      // this.$store.dispatch(actions.addAluno(aluno))
-      // alunoService.addAluno(aluno)
-    } else {
-      // alunoService.updateAluno(aluno)
-      const index = this.alunosTest.findIndex((h) => aluno.id === h.id)
-      this.alunosTest.splice(index, 1, aluno)
-    }
+    // if (mode === 'add') {
+    //   // this.$store.dispatch(actions.addAluno(aluno))
+    //   // alunoService.addAluno(aluno)
+    // } else {
+    //   // alunoService.updateAluno(aluno)
+    //   const index = this.alunosTest.findIndex((h) => aluno.id === h.id)
+    //   this.alunosTest.splice(index, 1, aluno)
+    // }
   }
 
   private onSelect(aluno: IAluno) {

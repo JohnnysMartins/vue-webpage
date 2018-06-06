@@ -4,16 +4,16 @@
       <div class="editfields">
         <div>
           <label>id: </label>
-          <input v-if="addingAluno" type="number" v-model="alunoTest.id" ref="id" placeholder="id" />
-          <label v-if="!addingAluno" class="value">{{alunoTest.id}}</label>
+          <input v-if="addingAluno" type="number" v-model="editingAluno.id" ref="id" placeholder="id" />
+          <label v-if="!addingAluno" class="value">{{editingAluno.id}}</label>
         </div>
         <div>
           <label>nome: </label>
-          <input v-model="alunoTest.nome" ref="nome" placeholder="nome" />
+          <input v-model="editingAluno.nome" ref="nome" placeholder="nome" />
         </div>
         <div>
           <label>idade: </label>
-          <input v-model="alunoTest.idade" placeholder="idade" @keyup.enter="save" />
+          <input v-model="editingAluno.idade" placeholder="idade" @keyup.enter="save" />
         </div>
       </div>
       <button @click="clear">Cancel</button>
@@ -38,11 +38,10 @@ export default class AlunoDetail extends Vue {
     id: HTMLElement,
     nome: HTMLElement,
   }
-  @Prop()
-  private aluno!: IAluno
+
   @Getter(getters.getAluno, { namespace })
-  private alunoTest!: IAluno
-  private addingAluno = !this.alunoTest
+  private aluno!: IAluno
+  private addingAluno = !this.aluno
   private editingAluno!: IAluno | null
   @Watch('aluno')
   public onAlunoChanged(value: IAluno, oldValue: IAluno) {
@@ -50,7 +49,7 @@ export default class AlunoDetail extends Vue {
   }
   private addAluno() {
     const aluno = this.editingAluno as IAluno
-    this.$store.dispatch(actions.addAluno(aluno))
+    this.$store.dispatch(actions.addAlunoLista(aluno))
   }
 
   @Emit('unselect')
@@ -89,7 +88,8 @@ export default class AlunoDetail extends Vue {
 
   private updateAluno() {
     const aluno = this.editingAluno as IAluno
-    this.emitRefresh('update', aluno)
+    this.$store.dispatch(actions.setAluno(aluno))
+    // this.emitRefresh('update', aluno)
   }
 
 }

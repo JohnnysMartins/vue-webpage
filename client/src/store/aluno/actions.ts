@@ -7,7 +7,7 @@ export default {
   setAllAlunos({ commit }: { commit: Commit }, { alunos }: { alunos: IAluno[] }) {
     commit(type.SET_LIST_ALUNOS, alunos)
   },
-  addAluno({ commit }: { commit: Commit }, { aluno }: { aluno: IAluno }) {
+  addAlunoList({ commit }: { commit: Commit }, { aluno }: { aluno: IAluno }) {
     commit(type.ADD_ALUNO_LIST, aluno)
   },
   setAluno({ commit }: { commit: Commit }, { aluno }: { aluno: IAluno }) {
