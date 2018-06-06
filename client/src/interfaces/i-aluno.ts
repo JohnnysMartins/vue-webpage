@@ -5,5 +5,5 @@ export interface IAluno {
 }
 
 export interface IAlunoState {
-    alunos: IAluno[]
+    lista: IAluno[]
 }

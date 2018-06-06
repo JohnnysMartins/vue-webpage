@@ -38,6 +38,7 @@ export default class AlunoDetail extends Vue {
   private aluno!: IAluno
   private addingAluno = !this.aluno
   private editingAluno!: IAluno | null
+  
   @Watch('aluno')
   public onAlunoChanged(value: IAluno, oldValue: IAluno) {
     this.editingAluno = this.cloneIt()

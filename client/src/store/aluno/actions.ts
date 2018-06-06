@@ -1,5 +1,5 @@
 import { Commit, Dispatch } from 'vuex'
-import { IAluno } from '@/interfaces/i-Aluno'
+import { IAluno } from '@/interfaces/i-aluno'
 
 import * as type from './mutations-types'
 
