@@ -4,16 +4,16 @@
       <div class="editfields">
         <div>
           <label>id: </label>
-          <input v-if="addingAluno" type="number" v-model="editingAluno.id" ref="id" placeholder="id" />
-          <label v-if="!addingAluno" class="value">{{editingAluno.id}}</label>
+          <input v-if="addingAluno" type="number" v-model="alunoTeste.id" ref="id" placeholder="id" />
+          <label v-if="!addingAluno" class="value">{{alunoTeste.id}}</label>
         </div>
         <div>
           <label>nome: </label>
-          <input v-model="editingAluno.nome" ref="nome" placeholder="nome" />
+          <input v-model="alunoTeste.nome" ref="nome" placeholder="nome" />
         </div>
         <div>
           <label>idade: </label>
-          <input v-model="editingAluno.idade" placeholder="idade" @keyup.enter="save" />
+          <input v-model="alunoTeste.idade" placeholder="idade" @keyup.enter="save" />
         </div>
       </div>
       <button @click="clear">Cancel</button>
@@ -37,22 +37,23 @@ export default class AlunoDetail extends Vue {
     id: HTMLElement,
     nome: HTMLElement,
   }
-
+  @Prop()
+  private addingAluno!: boolean
   @Getter(getters.getAluno, { namespace })
   private aluno!: IAluno
-  private addingAluno = !this.aluno
   private editingAluno!: IAluno | null
-  @Watch('aluno')
-  public onAlunoChanged(value: IAluno, oldValue: IAluno) {
-    this.editingAluno = this.cloneIt()
-  }
   private addAluno() {
-    const aluno = this.editingAluno as IAluno
-    this.$store.dispatch(actions.addAlunoLista(aluno))
+    const aluno = this.alunoTeste as IAluno
+    this.$store.dispatch(actions.addAlunoList(aluno))
+  }
+
+  get alunoTeste() {
+    return this.cloneIt()
   }
 
   @Emit('unselect')
   private clear() {
+    this.$store.dispatch(actions.setAluno({}))
     this.editingAluno = null
   }
 
@@ -61,12 +62,8 @@ export default class AlunoDetail extends Vue {
   }
 
   private created() {
+    console.log(!this.aluno)
     this.editingAluno = this.cloneIt()
-  }
-
-  @Emit('alunoChanged')
-  private emitRefresh(mode: string, aluno: IAluno) {
-    this.clear()
   }
 
   private mounted() {
@@ -86,9 +83,8 @@ export default class AlunoDetail extends Vue {
   }
 
   private updateAluno() {
-    const aluno = this.editingAluno as IAluno
-    this.$store.dispatch(actions.setAluno(aluno))
-    // this.emitRefresh('update', aluno)
+    const aluno = this.alunoTeste as IAluno
+    this.$store.dispatch(actions.updateAluno(aluno))
   }
 
 }

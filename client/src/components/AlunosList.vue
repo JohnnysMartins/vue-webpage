@@ -7,7 +7,7 @@
     <div class="container">
       <transition name="fade">
         <ul class="alunos" v-if="alunosTest && alunosTest.length">
-          <li v-for="aluno in alunosTest" :key="aluno.id" class="aluno-container" :class="{selected: aluno === selectedAluno}">
+          <li v-for="aluno in alunosTest" :key="aluno.id" class="aluno-container" :class="{selected: alunoSelecionado.id === aluno.id && selectedAluno}">
             <div class="aluno-element">
               <div class="badge">{{aluno.id}}</div>
               <div class="aluno-text" @click="onSelect(aluno)">
@@ -21,7 +21,7 @@
       </transition>
     </div>
     <transition name="fade">
-      <AlunoDetail v-if="selectedAluno || addingAluno" @unselect="unselect" @alunoChanged="alunoChanged"></AlunoDetail>
+      <AlunoDetail v-if="selectedAluno || addingAluno" :addingAluno="addingAluno" @unselect="unselect"></AlunoDetail>
     </transition>
   </div>
 </template>
@@ -30,7 +30,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { Getter, Action } from 'vuex-class'
 import * as actions from '@/store/aluno/actions.map'
-import { getAlunos } from '@/store/aluno/getters.map'
+import * as getters from '@/store/aluno/getters.map'
 import { Aluno } from '@/model/aluno'
 import { IAluno } from '@/interfaces/i-aluno'
 import { alunoService } from '@/service/aluno.service'
@@ -43,10 +43,13 @@ const namespace = 'aluno'
 })
 export default class AlunoList extends Vue {
   private addingAluno = false
-  private selectedAluno: IAluno | null = null
+  private selectedAluno = false
   private alunos!: IAluno[]
-  @Getter(getAlunos, { namespace })
+  @Getter(getters.getAlunos, { namespace })
   private alunosTest!: IAluno[]
+  @Getter(getters.getAluno, { namespace })
+  private alunoSelecionado!: IAluno
+
   private created() {
     this.alunos = [
       {id: 1, nome: 'Fulano', idade: 19},
@@ -57,43 +60,30 @@ export default class AlunoList extends Vue {
   }
 
   private deleteAluno(aluno: Aluno) {
-    alunoService.deleteAluno(aluno)
-    this.alunos = this.alunos.filter((h) => h !== aluno)
-    if (this.selectedAluno === aluno) {
-      this.selectedAluno = null
-    }
+    // alunoService.deleteAluno(aluno)
+    this.$store.dispatch(actions.removeAluno(aluno))
   }
 
   private enableAddMode() {
     this.addingAluno = true
-    this.selectedAluno = null
   }
 
   private async getAlunos() {
-    this.selectedAluno = null
     // this.alunos = await alunoService.getAlunos().then((res) => res.data)
+    this.$store.dispatch(actions.setAluno({}))
     this.$store.dispatch(actions.setAllAlunos(this.alunos))
-  }
-
-  private alunoChanged(mode: string, aluno: IAluno) {
-    // if (mode === 'add') {
-    //   // this.$store.dispatch(actions.addAluno(aluno))
-    //   // alunoService.addAluno(aluno)
-    // } else {
-    //   // alunoService.updateAluno(aluno)
-    //   const index = this.alunosTest.findIndex((h) => aluno.id === h.id)
-    //   this.alunosTest.splice(index, 1, aluno)
-    // }
+    this.selectedAluno = false
   }
 
   private onSelect(aluno: IAluno) {
-    this.selectedAluno = aluno
+    this.selectedAluno = true
+    this.addingAluno = false
     this.$store.dispatch(actions.setAluno(aluno))
   }
 
   private unselect() {
     this.addingAluno = false
-    this.selectedAluno = null
+    this.selectedAluno = false
   }
 
 }
